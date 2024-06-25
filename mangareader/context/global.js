@@ -1,7 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react';
 import axios from 'axios';
-import { lightTheme, darkTheme } from './themes'; // Ensure themes are imported if used
-
 
 // Create a Context
 export const GlobalContext = createContext();
