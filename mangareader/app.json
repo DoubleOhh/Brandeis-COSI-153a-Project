@@ -2,7 +2,8 @@
   "expo": {
     "name": "mangareader",
     "slug": "mangareader",
-    "version": "1.0.0"
+    "version": "1.0.0",
+    "sourceMap": true
   },
   "name": "mangareader"
 }

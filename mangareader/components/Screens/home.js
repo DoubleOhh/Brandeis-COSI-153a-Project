@@ -1,79 +1,66 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, FlatList } from 'react-native';
-import { Link } from 'react-router-dom';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { useEffect } from 'react';
 import { useGlobalContext } from '../../context/global';
 
 
-const HomeScreen = () => {
-    const { popularMangas, isSearching, searchResults, topMangas, latestMangas, chapters, currentTheme} = useGlobalContext();
+const HomeScreen = ({ navigation }) => {
+    const { getPopularMangas, popularMangas, loading } = useGlobalContext();
 
-
-    const renderMangaItem = () => {
-        if (!isSearching) {
-            return popularMangas.map((manga) => {
-                return <Link to={`/manga/${manga.id}`} key={manga.id} style={styles.link}>
-                    <Image 
-                        source={{ uri: `https://uploads.mangadex.org/covers/${manga.id}/${manga.coverFilename}`}}
-                        style={styles.image}
-                    />
-                </Link>
-            }
-            )
-        }
+    useEffect(() => {
+      getPopularMangas();
+    }, []);
+  
+    const renderManga = (mangas) => {
+      return mangas.map((manga) => {
+        return (
+          <TouchableOpacity
+            key={manga.id}
+            onPress={() => navigation.navigate('mangadetails', { id: manga.id })}
+            style={styles.link}
+          >
+            <Image
+              source={{ uri: `https://uploads.mangadex.org/covers/${manga.id}/${manga.coverFilename}` }}
+              style={styles.image}
+            />
+            <Text style={styles.mangaTitle}>{manga.attributes.title.en}</Text>
+          </TouchableOpacity>
+        );
+      });
     };
-
-
+  
+    if (loading) {
+      return <Text>Loading...</Text>;
+    }
+  
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Popular Mangas</Text>
-                <Text style={styles.headerText}>View All</Text>
-            </View>
-            <View style={styles.body}>
-                <FlatList
-                    data={popularMangas}
-                    renderItem={renderMangaItem}
-                    keyExtractor={(item) => item.id}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                />  
-            </View>
-        </View>
-    ); 
-
-    
-};
-
-const styles = StyleSheet.create({
+      <ScrollView style={styles.container}>
+        {renderManga(popularMangas)}
+      </ScrollView>
+    );
+  };
+  
+  const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        padding: 16,
-    },
-    header: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    list: {
-        alignItems: 'center',
+      flex: 1,
+      padding: 10,
+      backgroundColor: '#fff',
     },
     link: {
-        marginBottom: 10,
+      marginBottom: 20,
+      alignItems: 'center',
     },
     image: {
-        width: 100,
-        height: 150,
-        resizeMode: 'cover',
+      width: 150,
+      height: 225,
+      borderRadius: 10,
+      marginBottom: 10,
     },
-    searchInput: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 16,
-        paddingHorizontal: 8,
+    mangaTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      textAlign: 'center',
     },
-});
-
-
+  });
 
 export default HomeScreen;
