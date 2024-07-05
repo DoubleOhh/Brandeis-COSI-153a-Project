@@ -5,24 +5,67 @@ import { createStackNavigator } from '@react-navigation/stack';
 import home from './components/Screens/home';
 import settings from './components/Screens/settings';
 import about from './components/Screens/about';
-import { useGlobalContext } from './context/global';
-import mangadetails from './components/Screens/mangadetails';
+import search from './components/Screens/search';
+import history from './components/Screens/history';
+import mangaDetails from './components/Screens/mangadetails';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
+
+const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
-const App = () => {
-  const global = useGlobalContext();
-    return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Home">
 
-                <Stack.Screen name="Home" component={home} />
-                <Stack.Screen name="mangadetails" component={mangadetails} />
-                <Stack.Screen name="Settings" component={settings} />
-                
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+
+function HomeNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="Home1" component={home} />
+      <Stack.Screen name="Manga Details" component={mangaDetails} />
+    </Stack.Navigator>
+  );
+}
+function SearchNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="Search1" component={search} />
+      <Stack.Screen name="Manga Details" component={mangaDetails} />
+    </Stack.Navigator>
+  );
+}
+
+function HistoryNavigator() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen options={{headerShown: false}} name="History1" component={history} />
+      <Stack.Screen name="Manga Details" component={mangaDetails} />
+    </Stack.Navigator>
+  );
+}
+
+function  DrawerNavigator() {
+  return (
+    <Drawer.Navigator
+    screenoptions={{statusBarcolor: '#fff',
+      headerStyle: {backgroundColor: '#fff'},
+      headerTintColor: '#000',
+      headerTitleStyle: {fontWeight: 'bold'},}}
+      >
+      <Drawer.Screen name="Home" component={HomeNavigator} />
+      <Drawer.Screen name="Search" component={SearchNavigator}/>
+      <Drawer.Screen name="History" component={about} />
+      <Drawer.Screen name="Settings" component={settings} />
+      <Drawer.Screen name="About" component={about} />
+    </Drawer.Navigator>
+  );
+}
+
+const App = () => {
+  return (
+    <NavigationContainer>
+      <DrawerNavigator />
+    </NavigationContainer>
+  )
 };
 
 export default App;

@@ -1,4 +1,4 @@
-package com.mangareader
+package com.anonymous.mangareader
 
 import android.os.Build
 import android.os.Bundle

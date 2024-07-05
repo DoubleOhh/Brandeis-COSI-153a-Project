@@ -1,31 +1,63 @@
 // SettingsScreen.js
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useGlobalContext } from '../../context/global';
+import { useThemeStore } from '../../store/storage';
 
 const SettingsScreen = () => {
-    const { theme, toggleTheme } = useGlobalContext();
+
+    const { theme, toggleTheme } = useThemeStore();
 
     return (
-        <View style={[styles.container, { backgroundColor: currentTheme.background }]}>
-            <Text style={[styles.header, { color: currentTheme.text}]}>Settings</Text>
+        <View style={[styles(theme).container]}>
+            <Text style={[styles(theme).title]}>Settings</Text>
             <Button title="Toggle Theme" onPress={toggleTheme} />
         </View>
     );
 };
 
-const styles = StyleSheet.create({
+const styles = (theme) => StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
+        padding: 10,
+        backgroundColor: theme.colors.background,
     },
-    header: {
-        fontSize: 24,
+    image: {
+        width: 150,
+        height: 225,
+        borderRadius: 7,
+        border: '3px solid black',
+        marginBottom: 10,
+        marginRight: 15,
+        resizeMode: 'cover',
+    },
+    link: {
+        padding: 10,
+    },
+    title: {
+        fontSize: 20,
         fontWeight: 'bold',
-        marginBottom: 16,
+        marginBottom: 10,
+        color: theme.colors.text,
+        fontFamily: theme.fonts.main,
     },
+    description: {
+        fontSize: 16,
+        lineHeight: 22,
+        color: theme.colors.text,
+        fontFamily: theme.fonts.main,
+    },
+    input: {
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
+        borderColor: theme.colors.primary,
+        color: theme.colors.text,
+        fontFamily: theme.fonts.main,
+    }, 
+    button: {
+        margin: 12,
+    }
 });
 
 export default SettingsScreen;

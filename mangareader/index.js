@@ -7,9 +7,7 @@ import App from './App';
 
 
 const WrappedApp = () => (
-        <GlobalProvider>
             <App />
-        </GlobalProvider>
 );
 
 // registerRootComponent calls AppRegistry.registerComponent('main', () => App);

@@ -5,6 +5,7 @@ export const lighttheme = {
         secondary: '#6c757d',
         background: '#f5f5f5',
         text: '#333',
+        card : '#fff',
     },
     fonts: {
         main: 'VT323',

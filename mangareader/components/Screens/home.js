@@ -1,66 +1,119 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, AsyncStorage } from 'react-native';
 import { useEffect } from 'react';
 import { useGlobalContext } from '../../context/global';
+import {useMangaStore , useHistoryStore} from '../../store/storage';
+import { useThemeStore } from '../../store/storage';
 
 
 const HomeScreen = ({ navigation }) => {
-    const { getPopularMangas, popularMangas, loading } = useGlobalContext();
+    const { popularMangas, loading, getPopularMangas, topMangas, getTopMangas, latestMangas, getLatestMangas, } = useMangaStore();
+    const { theme } = useThemeStore();
 
     useEffect(() => {
       getPopularMangas();
+      getTopMangas();
+      getLatestMangas();
     }, []);
   
-    const renderManga = (mangas) => {
-      return mangas.map((manga) => {
-        return (
-          <TouchableOpacity
-            key={manga.id}
-            onPress={() => navigation.navigate('mangadetails', { id: manga.id })}
-            style={styles.link}
-          >
-            <Image
-              source={{ uri: `https://uploads.mangadex.org/covers/${manga.id}/${manga.coverFilename}` }}
-              style={styles.image}
-            />
-            <Text style={styles.mangaTitle}>{manga.attributes.title.en}</Text>
-          </TouchableOpacity>
-        );
-      });
-    };
-  
-    if (loading) {
-      return <Text>Loading...</Text>;
-    }
+    const renderManga = (manga) => {
+            return (
+                <View>
+                <TouchableOpacity
+                  key={manga.id}
+                  onPress={() => {navigation.navigate('Manga Details', { manga: manga })}}
+                >
+                  <Image
+                    source={{ uri: `https://uploads.mangadex.org/covers/${manga.id}/${manga.coverFilename}`}}
+                    style={styles(theme).image}
+                  />
+                </TouchableOpacity>
+              </View>
+              );
+        };
+        
+        
+    {loading && <Text>Loading...</Text>}
+
   
     return (
-      <ScrollView style={styles.container}>
-        {renderManga(popularMangas)}
-      </ScrollView>
+        <View style={styles(theme).container}> 
+        <ScrollView>
+        <Text style={styles(theme).title}>Latest Updates</Text>
+        <FlatList horizontal={true}
+        data={topMangas}
+        renderItem={({ item }) => renderManga(item)}
+        keyExtractor={(item) => item.id}
+        />
+        <Text style={styles(theme).title}>Popular Mangas</Text>
+        <FlatList horizontal={true}
+        data={popularMangas}
+        renderItem={({ item }) => renderManga(item)}
+        keyExtractor={(item) => item.id}
+        />
+        <Text style={styles(theme).title}>Latest Mangas</Text>
+        <FlatList horizontal={true}
+        data={latestMangas}
+        renderItem={({ item }) => renderManga(item)}
+        keyExtractor={(item) => item.id}
+        />
+        </ScrollView>
+        </View>
     );
   };
   
-  const styles = StyleSheet.create({
+  const styles = (theme) => StyleSheet.create({
     container: {
       flex: 1,
       padding: 10,
-      backgroundColor: '#fff',
+      backgroundColor: theme.colors.background,
     },
-    link: {
-      marginBottom: 20,
-      alignItems: 'center',
+    column: {
+      flex: 1,
+      flexDirection: "column",
     },
     image: {
       width: 150,
       height: 225,
-      borderRadius: 10,
+      borderRadius: 7,
+      border: '3px solid black',
       marginBottom: 10,
+      marginRight: 15,
+      resizeMode: 'cover',
     },
-    mangaTitle: {
-      fontSize: 16,
+    link: {
+      padding: 10,
+    },
+    text: {
+      color: theme.colors.text,
+      fontFamily: theme.fonts.main,
+    },
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      borderColor: theme.colors.primary,
+      color: theme.colors.text,
+      fontFamily: theme.fonts.main,
+    },
+    loadingText: {
+      color: theme.colors.text,
+      fontFamily: theme.fonts.main,
+    },
+    title: {
+      fontSize: 35,
       fontWeight: 'bold',
-      textAlign: 'center',
+      marginBottom: 10,
+      color: theme.colors.text,
+      fontFamily: theme.fonts.main,
     },
+    paragraph: {
+      fontSize: 16,
+      lineHeight: 22,
+      color: theme.colors.text,
+      fontFamily: theme.fonts.main,
+    }
   });
 
 export default HomeScreen;

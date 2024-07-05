@@ -3,7 +3,12 @@
     "name": "mangareader",
     "slug": "mangareader",
     "version": "1.0.0",
-    "sourceMap": true
+    "android": {
+      "package": "com.anonymous.mangareader"
+    },
+    "ios": {
+      "bundleIdentifier": "com.anonymous.mangareader"
+    }
   },
   "name": "mangareader"
 }

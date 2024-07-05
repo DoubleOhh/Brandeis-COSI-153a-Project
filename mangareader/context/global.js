@@ -46,7 +46,6 @@ export const GlobalProvider = ({ children }) => {
     loading: false,
     isSearching: false,
     searchResults: [],
-    chapters: [],
     theme: 'light', // Default theme
   };
 
@@ -76,7 +75,7 @@ export const GlobalProvider = ({ children }) => {
   const getTopMangas = async () => {
     dispatch({ type: LOADING });
     try {
-      const response = await fetch(`${baseurl}/manga?limit=20&order[relevance]=desc`);
+      const response = await fetch(`${baseurl}/manga?limit=20&order[latestUploadedChapter]=desc`);
       const data = await response.json();
       const mangas = data.data;
       const mangasWithCovers = await Promise.all(mangas.map(async (manga) => {
@@ -116,7 +115,7 @@ export const GlobalProvider = ({ children }) => {
   const searchManga = async (query) => {
     dispatch({ type: LOADING });
     try {
-      const response = await fetch(`${baseurl}/manga?title=${query}`);
+      const response = await fetch(`${baseurl}/manga?limit=20&title=${query}`);
       const data = await response.json();
       const mangas = data.data;
       const mangasWithCovers = await Promise.all(mangas.map(async (manga) => {
@@ -147,9 +146,12 @@ export const GlobalProvider = ({ children }) => {
 
   const getMangaDetails = async (id) => {
     try {
+    // find manga
+      dispatch({ type: LOADING });
       const response = await fetch(`${baseurl}/manga/${id}`);
       const data = await response.json();
       const manga = data.data;
+    // find cover 
       const coverArtRelationship = manga.relationships.find(rel => rel.type === 'cover_art');
       const coverResponse = await fetch(`${baseurl}/cover/${coverArtRelationship.id}`);
       const coverData = await coverResponse.json();

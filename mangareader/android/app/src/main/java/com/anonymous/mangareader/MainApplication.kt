@@ -1,4 +1,4 @@
-package com.mangareader
+package com.anonymous.mangareader
 
 import android.app.Application
 import android.content.res.Configuration
