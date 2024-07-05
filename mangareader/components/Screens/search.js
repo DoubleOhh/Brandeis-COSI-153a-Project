@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, AsyncStorage, TextInput, Button } from 'react-native';
 import { useEffect, useState } from 'react';
 import {useMangaStore , useHistoryStore, useThemeStore} from '../../store/storage';
 
@@ -47,7 +47,7 @@ const search = ({ navigation }) => {
     }}
 />
             <FlatList
-                numColumns={3}
+                numColumns={2}
                 ListHeaderComponent={
                     <Text style={styles(theme).title}>Search Results for {query}</Text>
                 }
