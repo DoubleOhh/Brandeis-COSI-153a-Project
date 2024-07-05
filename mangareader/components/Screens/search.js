@@ -6,7 +6,7 @@ import {useMangaStore , useHistoryStore, useThemeStore} from '../../store/storag
 
 
 
-const search = ({ navigation }) => {
+const Search = ({ navigation }) => {
     const {getsearchResults, searchResults, loading , } = useMangaStore();
     const [query, setQuery] = useState('');
     const {theme} = useThemeStore();
@@ -105,4 +105,4 @@ const styles = (theme) => StyleSheet.create({
 });
 
 
-export default search;
+export default Search;

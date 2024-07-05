@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { lighttheme, darktheme } from '../context/theme';
 import {devtools, persist, createJSONStorage } from 'zustand/middleware'
-import { storage, likestorage } from './mmkv'; // Import the configured MMKV instance
+import storage from './mmkv'; // Import the configured MMKV instance
 
 const baseurl = 'https://api.mangadex.org';
 
@@ -147,16 +147,9 @@ export const useThemeStore = create((set) => ({
 }));
 
 const zustandMMKVStorage = {
-  getItem: (name) => {
-    const value = storage.getString(name);
-    return value ? JSON.parse(value) : null;
-  },
-  setItem: (name, value) => {
-    storage.set(name, JSON.stringify(value));
-  },
-  removeItem: (name) => {
-    storage.delete(name);
-  },
-};
+  setItem: (key, data) => storage.set(key, data),
+  getItem: (key) => storage.getString(key),
+  removeItem: (key) => storage.delete(key),
+}
 
 

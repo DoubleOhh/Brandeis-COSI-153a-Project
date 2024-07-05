@@ -4,7 +4,7 @@ import { useGlobalContext } from '../../context/global';
 import { useMangaStore } from '../../store/storage';
 import CacheImage from '../../store/Imagecaching';
 
-const mangaDetails = ({ route }) => {
+const MangaDetails = ({ route }) => {
   const { manga } = route.params;
   const [chapters, setChapters] = useState([]);
 
@@ -69,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default mangaDetails;
+export default MangaDetails;
