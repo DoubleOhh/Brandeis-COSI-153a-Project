@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, AsyncStorage } from 'react-native';
-import { useEffect } from 'react';
-import { useGlobalContext } from '../../context/global';
-import {useMangaStore , useHistoryStore} from '../../store/storage';
-import { useThemeStore } from '../../store/storage';
+import { useEffect, useState } from 'react';
+import {useMangaStore , useHistoryStore, useThemeStore} from '../../store/storage';
+
 
 
 const HomeScreen = ({ navigation }) => {
     const { popularMangas, loading, getPopularMangas, topMangas, getTopMangas, latestMangas, getLatestMangas, } = useMangaStore();
+    const { history, addHistory } = useHistoryStore();
     const { theme } = useThemeStore();
 
     useEffect(() => {
@@ -21,7 +21,7 @@ const HomeScreen = ({ navigation }) => {
                 <View>
                 <TouchableOpacity
                   key={manga.id}
-                  onPress={() => {navigation.navigate('Manga Details', { manga: manga })}}
+                  onPress={() => {navigation.navigate('Manga Details', { manga: manga }), addHistory(manga)}}
                 >
                   <Image
                     source={{ uri: `https://uploads.mangadex.org/covers/${manga.id}/${manga.coverFilename}`}}

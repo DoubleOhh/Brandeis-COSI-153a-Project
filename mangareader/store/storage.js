@@ -1,24 +1,32 @@
 import { create } from 'zustand'
 import { lighttheme, darktheme } from '../context/theme';
+import {devtools, persist, createJSONStorage } from 'zustand/middleware'
+import { storage, likestorage } from './mmkv'; // Import the configured MMKV instance
 
 const baseurl = 'https://api.mangadex.org';
 
-export const useHistoryStore = create((set) => ({
-  mangas: [],
-  items: 0,
-  addHistory: (manga) => set((state) => {
-    state.items++;
-    const isinHistory = state.mangas.find(m => m.id === manga.id);
-    state.mangas = [...state.mangas, manga];
-    return { items: state.items, mangas: state.mangas };
-  }),
-  clearHistory: () => set({ items: 0, mangas: [] }),
-  removeHistory: (manga) => set((state) => ({
-    items: state.items - 1,
-    mangas: state.mangas.filter(m => m.id !== manga.id),
+export const useHistoryStore = create(
+    persist(
+    (set, get) => ({
+     mangas: [],
+     items: 0,
+     addHistory: (manga) => set((state) => {
+       state.items++;
+       state.mangas = [...state.mangas, manga];
+       return { items: state.items, mangas: state.mangas };
+     }),
+     removeHistory: (manga) => set((state) => ({
+       items: state.items - 1,
+       mangas: state.mangas.filter(m => m.id !== manga.id),
     })),
-  numberOfHistory: () => set((state) => ({ items: state.mangas.length })),
-}))
+     numberOfHistory: () => set((state) => ({ items: state.mangas.length })),
+     }),
+    {
+      name: 'history-store',
+      storage: createJSONStorage(()  =>  zustandMMKVStorage),
+    },
+  )
+);
 
 export const useMangaStore = create((set) => ({
   searchResults: [],
@@ -128,13 +136,27 @@ export const useMangaStore = create((set) => ({
 
   clearAll: () => set({ popularMangas: [], topMangas: [], latestMangas: [], searchResults: [] }),
 
-}))
+}));
 
 export const useThemeStore = create((set) => ({
+
   theme: lighttheme,
   toggleTheme: () => set((state) => ({
     theme: state.theme === lighttheme ? darktheme : lighttheme,
   })),
 }));
+
+const zustandMMKVStorage = {
+  getItem: (name) => {
+    const value = storage.getString(name);
+    return value ? JSON.parse(value) : null;
+  },
+  setItem: (name, value) => {
+    storage.set(name, JSON.stringify(value));
+  },
+  removeItem: (name) => {
+    storage.delete(name);
+  },
+};
 
 

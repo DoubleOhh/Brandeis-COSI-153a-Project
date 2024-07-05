@@ -1,22 +1,23 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, TextInput, Button } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, AsyncStorage } from 'react-native';
 import { useEffect, useState } from 'react';
-import { useMangaStore } from '../../store/storage';
-import dummydata from '../../assets/dummydata.json';
-import { useThemeStore } from '../../store/storage';
+import {useMangaStore , useHistoryStore, useThemeStore} from '../../store/storage';
+
+
 
 
 const search = ({ navigation }) => {
     const {getsearchResults, searchResults, loading , } = useMangaStore();
     const [query, setQuery] = useState('');
     const {theme} = useThemeStore();
+    const { addHistory } = useHistoryStore();
 
     const renderManga = (manga) => {
         return (
             <View>
             <TouchableOpacity
               key={manga.id}
-              onPress={() => {navigation.navigate('Manga Details', { manga: manga })}}
+              onPress={() => {navigation.navigate('Manga Details', { manga: manga }), addHistory(manga)}}
             >
               <Image
                 source={{ uri: `https://uploads.mangadex.org/covers/${manga.id}/${manga.coverFilename}`}}

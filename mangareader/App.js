@@ -53,7 +53,7 @@ function  DrawerNavigator() {
       >
       <Drawer.Screen name="Home" component={HomeNavigator} />
       <Drawer.Screen name="Search" component={SearchNavigator}/>
-      <Drawer.Screen name="History" component={about} />
+      <Drawer.Screen name="History" component={HistoryNavigator} />
       <Drawer.Screen name="Settings" component={settings} />
       <Drawer.Screen name="About" component={about} />
     </Drawer.Navigator>
