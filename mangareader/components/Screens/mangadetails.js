@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
-import { useGlobalContext } from '../../context/global';
 import { useMangaStore } from '../../store/storage';
-import CacheImage from '../../store/Imagecaching';
+
 
 const MangaDetails = ({ route }) => {
   const { manga } = route.params;

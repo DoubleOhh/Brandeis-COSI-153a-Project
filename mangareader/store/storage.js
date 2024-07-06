@@ -1,7 +1,7 @@
 import { create } from 'zustand'
-import { lighttheme, darktheme } from '../context/theme';
-import {devtools, persist, createJSONStorage } from 'zustand/middleware'
-import storage from './mmkv'; // Import the configured MMKV instance
+import { lighttheme, darktheme } from '../assets/theme';
+import { persist, createJSONStorage} from 'zustand/middleware'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseurl = 'https://api.mangadex.org';
 
@@ -23,7 +23,7 @@ export const useHistoryStore = create(
      }),
     {
       name: 'history-store',
-      storage: createJSONStorage(()  =>  zustandMMKVStorage),
+      storage: createJSONStorage(() => AsyncStorage),
     },
   )
 );
@@ -146,10 +146,5 @@ export const useThemeStore = create((set) => ({
   })),
 }));
 
-const zustandMMKVStorage = {
-  setItem: (key, data) => storage.set(key, data),
-  getItem: (key) => storage.getString(key),
-  removeItem: (key) => storage.delete(key),
-}
 
 

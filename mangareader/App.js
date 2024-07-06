@@ -9,7 +9,6 @@ import search from './components/Screens/search';
 import history from './components/Screens/history';
 import mangaDetails from './components/Screens/mangadetails';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 const Drawer = createDrawerNavigator();

@@ -3,12 +3,27 @@
     "name": "mangareader",
     "slug": "mangareader",
     "version": "1.0.0",
-    "android": {
-      "package": "com.anonymous.mangareader"
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     },
     "ios": {
+      "supportsTablet": true,
       "bundleIdentifier": "com.anonymous.mangareader"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.anonymous.mangareader"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
     }
-  },
-  "name": "mangareader"
+  }
 }
