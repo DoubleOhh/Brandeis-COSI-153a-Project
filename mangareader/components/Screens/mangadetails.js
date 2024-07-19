@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, ActivityIndicator, Pressable } from 'react-native';
 import { useMangaStore } from '../../store/storage';
 
 
@@ -23,7 +23,7 @@ const MangaDetails = ({ route }) => {
         source={{ uri: `https://uploads.mangadex.org/covers/${manga.id}/${manga.coverFilename}` }}
         style={styles.image}
       />
-      <Text style={styles.title}>{manga.attributes.title.en}</Text>
+      <Text style={styles.title}>{manga.attributes.title.en != null ? manga.attributes.title.en : manga.attributes.title['ja-ro']}</Text>
       <Text style={styles.header}>Chapters: {manga.attributes.lastChapter}</Text>
       <Text style={styles.description}>{manga.attributes.description.en}</Text>
 

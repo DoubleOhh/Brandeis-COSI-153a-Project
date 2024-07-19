@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList, ScrollView, AsyncStorage } from 'react-native';
-import { useEffect, useState } from 'react';
+import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, FlatList, ScrollView, AsyncStorage } from 'react-native';
+import { useEffect, } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
 import {useMangaStore , useHistoryStore, useThemeStore} from '../../store/storage';
 
 
@@ -18,15 +19,33 @@ const HomeScreen = ({ navigation }) => {
   
     const renderManga = (manga) => {
             return (
-                <View>
+                <View style={styles(theme).container}>
                 <TouchableOpacity
                   key={manga.id}
                   onPress={() => {navigation.navigate('Manga Details', { manga: manga }), addHistory(manga)}}
                 >
-                  <Image
+                  <ImageBackground
                     source={{ uri: `https://uploads.mangadex.org/covers/${manga.id}/${manga.coverFilename}`}}
-                    style={styles(theme).image}
-                  />
+                    style={styles(theme).image}>
+                    <LinearGradient 
+                      locations={[0, 2]}
+                      colors={['rgba(255, 255, 255, 0)', 'rgba(255, 255, 255, .65)']} 
+                      style={{height : '100%', width : '100%'}}>
+                      <View style={{
+                        flexDirection: 'row', 
+                        position: 'absolute', 
+                        top: 0, 
+                        left: 0, 
+                        right: 0, 
+                        bottom: 0, 
+                        justifyContent: 'center', 
+                        alignItems: 'flex-end'}}>
+                        <Text numberOfLines={2} style = {styles(theme).text}>
+                        {manga.attributes.title.en != null ? manga.attributes.title.en : manga.attributes.title['ja-ro']} </Text>
+                      </View>
+                    </LinearGradient>
+                    
+                  </ImageBackground>
                 </TouchableOpacity>
               </View>
               );
@@ -80,6 +99,7 @@ const HomeScreen = ({ navigation }) => {
       marginBottom: 10,
       marginRight: 15,
       resizeMode: 'cover',
+      overflow: 'hidden',
     },
     link: {
       padding: 10,

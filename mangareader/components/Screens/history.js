@@ -32,6 +32,7 @@ const HistoryScreen = ( { navigation } ) => {
                 data={mangas}
                 renderItem={({ item }) => renderManga(item)}
                 keyExtractor={(item) => item.id}
+                inverted
             />
         </View>
     );

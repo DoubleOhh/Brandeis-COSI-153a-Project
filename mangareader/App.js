@@ -9,6 +9,9 @@ import search from './components/Screens/search';
 import history from './components/Screens/history';
 import mangaDetails from './components/Screens/mangadetails';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { useFonts } from 'expo-fonts'
+import {useMangaStore , useHistoryStore, useThemeStore} from '../../store/storage';
+
 
 
 const Drawer = createDrawerNavigator();
@@ -60,6 +63,12 @@ function  DrawerNavigator() {
 }
 
 const App = () => {
+  cont [fontsLoaded] = useFonts({
+    "VT323": require("./assets/fonts/VT323.ttf")
+  });
+  if (!fontsLoaded) {
+    return undefined;
+  }
   return (
     <NavigationContainer>
       <DrawerNavigator />
